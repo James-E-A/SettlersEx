@@ -58,7 +58,10 @@ defmodule SettlersApp.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+
+      {:arrays, "~> 2.1"}
+      #{:timex, "~> 3.0"}, # https://github.com/bitwalker/timex/blob/82063b3a2b31b5e06486f7f4125d051cfa094a57/lib/timezone/local.ex#L152
     ]
   end
 
