@@ -38,11 +38,11 @@
                 debugger;
                 viewBox[0] = Math.min(viewBox[0], x_west);
                 viewBox[1] = Math.min(viewBox[1], y_north);
-                viewBox[2] = Math.max(viewBox[2], x_east + viewBox[0]);
-                viewBox[3] = Math.max(viewBox[2], y_south + viewBox[1]);
+                viewBox[2] = Math.max(viewBox[2], x_east - viewBox[0]);
+                viewBox[3] = Math.max(viewBox[3], y_south - viewBox[1]);
+                e0.setAttribute('viewBox', viewBox.join(" "));
                 e0.setAttribute('width', viewBox[2]);
                 e0.setAttribute('height', viewBox[3]);
-                e0.setAttribute('viewBox', viewBox.join(" "));
             }
         }</script>
     </g>
