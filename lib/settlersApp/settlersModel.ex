@@ -46,7 +46,7 @@ defmodule SettlersModel do
         Arrays.new([%TerrainTile{type: :ocean}, %TerrainTile{type: :ocean}, %TerrainTile{type: :ocean}, %TerrainTile{type: :ocean}, nil, nil, nil]),
         Arrays.new([%TerrainTile{type: :ocean}, %TerrainTile{type: :hills, yield: 5}, %TerrainTile{type: :fields, yield: 6}, %TerrainTile{type: :pasture, yield: 11}, %TerrainTile{type: :ocean}, nil, nil]),
         Arrays.new([%TerrainTile{type: :ocean}, %TerrainTile{type: :forest, yield: 8}, %TerrainTile{type: :mountains, yield: 3}, %TerrainTile{type: :fields, yield: 4}, %TerrainTile{type: :pasture, yield: 5}, %TerrainTile{type: :ocean}, nil]),
-        Arrays.new([%TerrainTile{type: :ocean}, %TerrainTile{type: :field, yield: 9}, %TerrainTile{type: :forest, yield: 11}, %TerrainTile{type: :desert}, %TerrainTile{type: :forest, yield: 3}, %TerrainTile{type: :mountains, yield: 8}, %TerrainTile{type: :ocean}]),
+        Arrays.new([%TerrainTile{type: :ocean}, %TerrainTile{type: :fields, yield: 9}, %TerrainTile{type: :forest, yield: 11}, %TerrainTile{type: :desert}, %TerrainTile{type: :forest, yield: 3}, %TerrainTile{type: :mountains, yield: 8}, %TerrainTile{type: :ocean}]),
         Arrays.new([nil, %TerrainTile{type: :ocean}, %TerrainTile{type: :fields, yield: 12}, %TerrainTile{type: :hills, yield: 6}, %TerrainTile{type: :pasture, yield: 4}, %TerrainTile{type: :hills, yield: 10}, %TerrainTile{type: :ocean}]),
         Arrays.new([nil, nil, %TerrainTile{type: :ocean}, %TerrainTile{type: :mountains, yield: 10}, %TerrainTile{type: :pasture, yield: 2}, %TerrainTile{type: :forest, yield: 9}, %TerrainTile{type: :ocean}]),
         Arrays.new([nil, nil, nil, %TerrainTile{type: :ocean}, %TerrainTile{type: :ocean}, %TerrainTile{type: :ocean}, %TerrainTile{type: :ocean}])
