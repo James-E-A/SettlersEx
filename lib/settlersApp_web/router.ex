@@ -18,6 +18,8 @@ defmodule SettlersAppWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/hello", HelloController, :index
+    get "/game/:id", HelloController, :game
   end
 
   # Other scopes may use custom stacks.

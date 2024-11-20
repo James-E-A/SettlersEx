@@ -59,7 +59,7 @@ defmodule SettlersModel do
           Arrays.new([[], [], [], [%Structure{type: :robber}], [], [], [%Structure{type: :port, detail: %{type: :_any, position: 3}}]]),
           Arrays.new([[], [%Structure{type: :port, detail: %{type: :lumber, position: 0}}], [], [], [], [], []]),
           Arrays.new([[], [], [], [], [], [], [%Structure{type: :port, detail: %{type: :ore, position: 4}}]]),
-          Arrays.new([[], [], [], [%Structure{type: :port, detail: %{type: :_any, position: 4}}], [], [%Structure{type: :port, detail: %{type: :grain, position: 5}}], []])
+          Arrays.new([[%Structure{type: :merchant}], [], [], [%Structure{type: :port, detail: %{type: :_any, position: 4}}], [], [%Structure{type: :port, detail: %{type: :grain, position: 5}}], []])
         ]),
         edges: Arrays.new([
           Arrays.new([Arrays.new([[], [], []]), Arrays.new([[], [], []]), Arrays.new([[], [], []]), Arrays.new([[], [], []]), Arrays.new([[], [], []]), Arrays.new([[], [], []]), Arrays.new([[], [], []]), Arrays.new([[], [], []])]),
