@@ -9,16 +9,16 @@ defmodule SettlersView.Util do
   end
   def calc_coords(:"point-top", :edge, i, j, j_, k) do
     %{
-      x0: (i - j/2 + elem({0.5, 0.25, -0.25, 0,   -0.25, 0.25}, k)) * @inradius, # FIXME estimate
-      y0: (j_      + elem({0.5, 0,    0,     0.5, 1,     1},    k)) * @inradius * @half_sqrt_3, # FIXME estimate
+      x0: (i - j/2 + elem({1,   0.75, 0.25, 0,   0.25, 0.75}, k)) * @inradius, # FIXME estimate
+      y0: (j_      + elem({0.5, 0,    0,    0.5, 1,    1},    k)) * @inradius * @half_sqrt_3, # FIXME estimate
       rot: 90.0 - 60*k
     }
   end
   def calc_coords(:"point-top", :intersection, i, j, j_, k) do
     {j_, k_} = {j_ + div(k, 3), rem(k, 3)};
     %{
-      x0: (i - j/2 + elem({0.5,      0,        -0.5, -0.5, 0, 0.5}, k)) * @inradius,
-      y0: (j_      + elem({0.171875, -0.15625, 0.171875}, k_)) * @inradius * @half_sqrt_3 # FIXME estimate
+      x0: (i - j/2 + elem({1,        0.5,       0,        0, 0.5, 1}, k )) * @inradius,
+      y0: (j_      + elem({0.171875, -0.171875, 0.171875           }, k_)) * @inradius * @half_sqrt_3 # FIXME estimate
     }
   end
   @terrain_colors %{

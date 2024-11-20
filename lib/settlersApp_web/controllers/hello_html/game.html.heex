@@ -1,56 +1,81 @@
-<svg xmlns="http://www.w3.org/2000/svg" class="board" style="/* overflow: visible; */ border: 2pt dotted red;" width="500" height="500">
+<svg xmlns="http://www.w3.org/2000/svg" class="board" style="/* overflow: visible; */ border: 2pt dotted red;" width="450" height="450">
+    <% terrain = @game.state.board.terrain; %>
+    <% w = Arrays.size(terrain[0]); %>
+    <% h = Arrays.size(terrain); %>
+
     <g class="layer_terrain">
-        <% terrain = @game.state.board.terrain; %>
-        <% jMax = Arrays.size(terrain) - 1; %>
-        <%= for {row, j} <- jMax..0 |> Stream.map(fn i -> {terrain[i], i} end) do %>
-            <% j_ = jMax - j; %>
-            <%= for {tile, i} <- Stream.with_index(row) |> Stream.filter(fn {x, _} -> not is_nil(x) end) do %>
-                <% coords = SettlersView.Util.calc_coords(:"point-top", :tile, i, j, j_); %>
-                <% classlist_loc = ["row-#{i}", "col-#{j}"]; %>
+        <%= for j <- (h - 1)..0 do %><%!-- iterate rows in reverse order for rendering --%>
+            <% j_ = h - 1 - j; %>
+            <%= for i <- 0..(w - 1) do %>
+                <% tile = terrain[j][i]; %>
+                <%= if not is_nil(tile) do %>
 
-                <% background_color = SettlersView.Util.lookup_tile_color(tile.type) %>
+                    <% coords = SettlersView.Util.calc_coords(:"point-top", :tile, i, j, j_); %>
+                    <% classlist_loc = ["row-#{j}", "col-#{i}"]; %>
+                    <% background_color = SettlersView.Util.lookup_tile_color(tile.type) %>
 
-                <circle cx={coords.x0} cy={coords.y0} r="48" fill={background_color} class={["terrain-background" | classlist_loc]} />
-                <%= if not is_nil(tile.yield) do %>
-                    <circle cx={coords.x0} cy={coords.y0} r="16" fill={SettlersView.Util.lookup_tile_color(:_cardboard)} class={["terrain-yield-circle" | classlist_loc]} />
-                    <text x={coords.x0} y={coords.y0} dominant-baseline="middle" text-anchor="middle" class={["terrain-yield-label" | classlist_loc]}><%= tile.yield %></text>
-                <% end %>
-
-            <% end %>
-        <% end %>
-    </g>
-    <g class="layer_structure">
-        <% %{tiles: tiles, edges: edges, intersections: intersections} = @game.state.board.structures; %>
-
-        <% jMax = Arrays.size(tiles) - 1; %>
-        <%= for {row, j} <- jMax..0 |> Stream.map(fn i -> {tiles[i], i} end) do %>
-            <% j_ = jMax - j; %>
-            <%= for {structures, i} <- Stream.with_index(row) do %>
-                <% coords = SettlersView.Util.calc_coords(:"point-top", :tile, i, j, j_); %>
-                <% classlist_loc = ["row-#{i}", "col-#{j}"]; %>
-                <%= for structure <- structures do %>
-
-                    <%= case structure.type do %>
-                        <% :robber -> %>
-                            <text font-size="32" x={coords.x0 - 24} y={coords.y0 + 16} text-anchor="middle" >&#x265f;&#xfe0e;</text>
-                        <% :merchant -> %>
-                            <text font-size="32" x={coords.x0 + 24} y={coords.y0 + 16} text-anchor="middle" fill="purple" >&#x265d;&#xfe0e;</text>
-                        <% _ -> %>
-                            <text x={coords.x0 - 16} y={coords.y0} transform="rotate(-90)" transform-origin={"#{coords.x0 - 16} #{coords.y0}"} dominant-baseline="middle" text-anchor="middle" fill="magenta" class={["structure-debug" | classlist_loc]}><%= structure.type %></text>
+                    <circle cx={coords.x0} cy={coords.y0} r="48" fill={background_color} class={["terrain-background" | classlist_loc]} />
+                    <%= if not is_nil(tile.yield) do %>
+                        <circle cx={coords.x0} cy={coords.y0} r="16" fill={SettlersView.Util.lookup_tile_color(:_cardboard)} class={["terrain-yield-circle" | classlist_loc]} />
+                        <text x={coords.x0} y={coords.y0} dominant-baseline="middle" text-anchor="middle" class={["terrain-yield-label" | classlist_loc]}><%= tile.yield %></text>
                     <% end %>
 
                 <% end %>
             <% end %>
         <% end %>
+        <script>{
+            const e = document.currentScript.parentElement;
+            const e0 = e.parentElement;
+            const viewBox = [Infinity, Infinity, 0, 0];
+            for ( const ei of e.querySelectorAll('circle.terrain-background') ) {
+                const cx = Number(ei.getAttribute('cx'));
+                const cy = Number(ei.getAttribute('cy'));
+                const r = Number(ei.getAttribute('r'));
+                const x_west  = cx - r;
+                const x_east  = cx + r;
+                const y_north = cy - r;
+                const y_south = cy + r;
+                debugger;
+                viewBox[0] = Math.min(viewBox[0], x_west);
+                viewBox[1] = Math.min(viewBox[1], y_north);
+                viewBox[2] = Math.max(viewBox[2], x_east + viewBox[0]);
+                viewBox[3] = Math.max(viewBox[2], y_south + viewBox[1]);
+                e0.setAttribute('width', viewBox[2]);
+                e0.setAttribute('height', viewBox[3]);
+                e0.setAttribute('viewBox', viewBox.join(" "));
+            }
+        }</script>
+    </g>
 
-        <% jMax = Arrays.size(edges) - 1; %>
-        <%= for {row, j} <- jMax..0 |> Stream.map(fn i -> {edges[i], i} end) do %>
-            <% j_ = jMax - j; %>
-            <%= for {positions, i} <- Stream.with_index(row) do %>
-                <%= for {structures, k} <- Stream.with_index(positions) do %>
+    <% %{tiles: tiles, edges: edges, intersections: intersections} = @game.state.board.structures; %>
+    <g class="layer_structure">
+        <%= for j <- (h - 1)..-1 do %><%!-- iterate rows in reverse order for rendering --%>
+            <% j_ = h - 1 - j; %>
+            <%= for i <- -1..(w - 1) do %>
+
+                <%!-- tile structures --%>
+                <%= if j >= 0 and i >= 0 do %>
+                    <% coords = SettlersView.Util.calc_coords(:"point-top", :tile, i, j, j_); %>
+                    <% classlist_loc = ["row-#{j}", "col-#{i}"]; %>
+                    <%= for structure <- tiles[j][i] do %>
+
+                        <%= case structure.type do %>
+                            <% :robber -> %>
+                                <text font-size="32" x={coords.x0 - 24} y={coords.y0 + 16} text-anchor="middle" >&#x265f;&#xfe0e;</text>
+                            <% :merchant -> %>
+                                <text font-size="32" x={coords.x0 + 24} y={coords.y0 + 16} text-anchor="middle" fill="purple" >&#x265d;&#xfe0e;</text>
+                            <% _ -> %>
+                                <text x={coords.x0 - 16} y={coords.y0} transform="rotate(-90)" transform-origin={"#{coords.x0 - 16} #{coords.y0}"} dominant-baseline="middle" text-anchor="middle" fill="magenta" class={["structure-debug" | classlist_loc]}><%= structure.type %></text>
+                        <% end %>
+
+                    <% end %>
+                <% end %>
+
+                <%!-- edge structures --%>
+                <%= for k <- 0..2 do %>
                     <% coords = SettlersView.Util.calc_coords(:"point-top", :edge, i, j, j_, k); %>
-                    <% classlist_loc = ["row-#{i}", "col-#{j}", "pos-#{k}"]; %>
-                    <%= for structure <- structures do %>
+                    <% classlist_loc = ["row-#{j}", "col-#{i}", "pos-#{k}"]; %>
+                    <%= for structure <- edges[j+1][i+1][k] do %>
 
                         <%= case structure.type do %>
                             <% :road -> %>
@@ -62,17 +87,12 @@
 
                     <% end %>
                 <% end %>
-            <% end %>
-        <% end %>
 
-        <% jMax = Arrays.size(intersections) - 1; %>
-        <%= for {row, j} <- jMax..0 |> Stream.map(fn i -> {intersections[i], i} end) do %>
-            <% j_ = jMax - j; %>
-            <%= for {positions, i} <- Stream.with_index(row) do %>
-                <%= for {structures, k} <- Stream.with_index(positions) do %>
+                <%!-- intersection structures --%>
+                <%= for k <- 0..1 do %>
                     <% coords = SettlersView.Util.calc_coords(:"point-top", :intersection, i, j, j_, k); %>
                     <% classlist_loc = ["row-#{i}", "col-#{j}", "pos-#{k}"]; %>
-                    <%= for structure <- structures do %>
+                    <%= for structure <- intersections[j+1][i+1][k] do %>
 
                         <%= case structure.type do %>
                             <% :settlement -> %>
@@ -80,15 +100,18 @@
                                     <polygon fill={@game.player_cosmetic[structure.owner].color} points="0,-12.5 10,-2.5 10,10 -10,10 -10,-2.5" />
                                 </g>
                             <% _ -> %>
-                                <text x={coords.x0} y={coords.y0} dominant-baseline="middle" text-anchor="middle" fill="magenta" class={["structure-debug" | classlist_loc]}><%= structure.type %></text>
+                                <circle cx={coords.x0} cy={coords.y0} fill="magenta" r="2" />
+                                <text x={coords.x0} y={coords.y0} dominant-baseline="middle" text-anchor="middle" fill="magenta" font-size="7" class={["structure-debug" | classlist_loc]}><%= structure.type %>(<%= "#{i},#{j},#{k}" %>>)</text>
                         <% end %>
 
                     <% end %>
                 <% end %>
+
             <% end %>
         <% end %>
     </g>
+
     <g class="layer_nondiegetic">
-        <%= "SettlersView.render_extra(@game.state.board)" %>
+        <%!-- TODO --%>
     </g>
 </svg>
