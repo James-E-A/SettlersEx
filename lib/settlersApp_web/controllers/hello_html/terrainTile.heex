@@ -1,0 +1,30 @@
+
+<%= if not is_nil(@tile) do %>
+    <circle
+    cx={@coords.x0}
+    cy={@coords.y0}
+    r="48"
+    class={["row-#{@j}", "col-#{@i}", "terrain-background"]}
+    fill={SettlersView.Util.lookup_substance_color(@tile.type)}
+    />
+    <%= if not is_nil(@tile.yield) do %>
+    <circle
+        cx={@coords.x0}
+        cy={@coords.y0}
+        r="12"
+        class={["row-#{@j}", "col-#{@i}", "terrain-yield-pip"]}
+        fill={SettlersView.Util.lookup_substance_color(:_cardboard)}
+    />
+    <text
+        x={@coords.x0}
+        y={@coords.y0 - 2}
+        text-anchor="middle"
+        dominant-baseline="central"
+        pointer-events="none"
+        font-size={20 - abs(7 - @tile.yield) * 2}
+        fill={if abs(7 - @tile.yield) < 2 do "red" else "black" end}
+    >
+        <%= @tile.yield %>
+    </text>
+    <% end %>
+<% end %>

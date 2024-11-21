@@ -1,0 +1,130 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="board"
+    style="/* overflow: visible; */ border: 2pt dotted red;"
+    width="480"
+    height="415"
+>
+
+    <g class="layer_terrain">
+        <%!-- iterate rows in reverse order for rendering --%>
+        <%= for {row, j} <- Enum.reverse(Enum.with_index(@game.state.board.terrain)) do %>
+            <%= for {tile, i} <- Enum.with_index(row) do %>
+                <.terrainTile
+                    tile={tile}
+                    i={i}
+                    j={j}
+                    coords={SettlersView.Util.calc_coords(
+                        :tile,
+                        :"point-top",
+                        i,
+                        j,
+                        1,
+                        Arrays.size(@game.state.board.terrain) - 2
+                    )}
+                />
+            <% end %>
+        <% end %>
+
+        <script>{
+            const e = document.currentScript.parentElement;
+            const e0 = e.parentElement;
+            let viewBox = undefined;
+            for ( const ei of e.querySelectorAll('circle.terrain-background') ) {
+                const cx = Number(ei.getAttribute('cx'));
+                const cy = Number(ei.getAttribute('cy'));
+                const r = Number(ei.getAttribute('r'));
+                const is_ocean = ei.getAttribute('fill') === 'DodgerBlue';
+                const x_west  = cx - r * (is_ocean ? 0.25 : 1);
+                const x_east  = cx + r * (is_ocean ? 0.25 : 1);
+                const y_north = cy - r * (is_ocean ? 0.25 : 1);
+                const y_south = cy + r * (is_ocean ? 0.25 : 1);
+                if (viewBox === undefined)
+                    viewBox = [Infinity, Infinity, -Infinity, -Infinity];
+                viewBox[0] = Math.min(viewBox[0], x_west);
+                viewBox[1] = Math.min(viewBox[1], y_north);
+                viewBox[2] = Math.max(viewBox[2], x_east - viewBox[0]);
+                viewBox[3] = Math.max(viewBox[3], y_south - viewBox[1]);
+            }
+            if (viewBox !== undefined) {
+                e0.setAttribute('viewBox', viewBox.join(" "));
+                e0.setAttribute('width', viewBox[2]);
+                e0.setAttribute('height', viewBox[3]);
+            }
+        }</script>
+    </g>
+
+    <g class="layer_structure">
+        <%= for {row, j} <- Enum.reverse(Enum.with_index(SettlersView.Util.zipx([@game.state.board.structures.edges, @game.state.board.structures.intersections]))) do %>
+            <%= for {{edges, intersections}, i} <- Enum.with_index(row) do %>
+                <%!-- edge structures --%>
+                <%= for {edge, k} <- Enum.with_index(edges) do %>
+                    <%= for structure <- edge do %>
+                        <.structure
+                            player_cosmetic={@game.player_cosmetic}
+                            i={i}
+                            j={j}
+                            k={k}
+                            structure={structure}
+                            coords={SettlersView.Util.calc_coords(
+                                :edge,
+                                :"point-top",
+                                i-1,
+                                j-1,
+                                k,
+                                1,
+                                5
+                            )}
+                        />
+                    <% end %>
+                <% end %>
+                <%!-- intersection structures --%>
+                <%= for {intersection, k} <- Enum.with_index(intersections) do %>
+                    <%= for structure <- intersection do %>
+                        <.structure
+                            player_cosmetic={@game.player_cosmetic}
+                            i={i}
+                            j={j}
+                            k={k}
+                            structure={structure}
+                            coords={SettlersView.Util.calc_coords(
+                                :intersection,
+                                :"point-top",
+                                i-1,
+                                j-1,
+                                k,
+                                1,
+                                5
+                            )}
+                        />
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% end %>
+        <%= for {row, j} <- Enum.reverse(Enum.with_index(@game.state.board.structures.tiles)) do %>
+            <%= for {tile, i} <- Enum.with_index(row) do %>
+                <%!-- tile structures --%>
+                <%= for structure <- tile do %>
+                    <.structure
+                        player_cosmetic={@game.player_cosmetic}
+                        i={i}
+                        j={j}
+                        structure={structure}
+                        coords={SettlersView.Util.calc_coords(
+                            :tile,
+                            :"point-top",
+                            i,
+                            j,
+                            1,
+                            7 - 2
+                        )}
+                    />
+                <% end %>
+            <% end %>
+        <% end %>
+    </g>
+
+    <g class="layer_nondiegetic">
+        <%!-- TODO --%>
+    </g>
+</svg>

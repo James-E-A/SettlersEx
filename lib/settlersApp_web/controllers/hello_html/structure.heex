@@ -1,0 +1,87 @@
+<%= case @structure.type do %>
+    <% :robber -> %>
+        <text
+            x={@coords.x0 - 24}
+            y={@coords.y0 + 16}
+            text-anchor="middle"
+            pointer-events="painted"
+            font-size="32"
+            class={[["row-#{@j}", "col-#{@i}"] | ["structure-robber"]]}
+        >
+            &#x265f;&#xfe0e;
+        </text>
+    <% :merchant -> %>
+        <text
+            x={@coords.x0 + 24}
+            y={@coords.y0 + 16}
+            text-anchor="middle"
+            pointer-events="painted"
+            font-size="32"
+            fill="purple"
+            class={[["row-#{@j}", "col-#{@i}"] | ["structure-merchant"]]}
+        >
+            &#x265d;&#xfe0e;
+        </text>
+    <% :road -> %>
+        <rect
+            x={@coords.x0 - 40/2}
+            y={@coords.y0 - 6/2}
+            width="40"
+            height="6"
+            fill={@player_cosmetic[@structure.owner].color || "magenta"}
+            stroke="black"
+            stroke-width="0.25"
+            transform-origin={"#{@coords.x0} #{@coords.y0}"}
+            transform={"rotate(#{@coords.rot})"}
+            class={[["row-#{@j}", "col-#{@i}"] | ["structure-debug"]]}
+        />
+    <% :settlement -> %>
+        <g
+            transform={"translate(#{@coords.x0} #{@coords.y0})"}
+        >
+        <polygon
+            points="0,-12.5 10,-2.5 10,10 -10,10 -10,-2.5"
+            fill={@player_cosmetic[@structure.owner].color || "magenta"}
+            stroke="black"
+            stroke-width="0.5"
+        />
+        </g>
+    <% :city -> %>
+        <g
+            transform={"translate(#{@coords.x0} #{@coords.y0})"}
+        >
+        <polygon
+            points="-7.5,-15 0,-5 15,-5 15,10 -15,10 -15,-5"
+            fill={@player_cosmetic[@structure.owner].color || "magenta"}
+            stroke="black"
+            stroke-width="0.5"
+        />
+        </g>
+    <% :port -> %>
+        <text
+            x={@coords.x0}
+            y={@coords.y0 - 40}
+            text-anchor="middle"
+            dominant-baseline="central"
+            pointer-events="none"
+            fill={SettlersView.Util.lookup_substance_color(@structure.detail.type)}
+            transform-origin={"#{@coords.x0} #{@coords.y0}"}
+            transform={"rotate(#{90 - 60 * @structure.detail.position})"}
+            class={[["row-#{@j}", "col-#{@i}"] | ["structure-debug"]]}
+        >
+            <%= @structure.detail.type %>
+        </text>
+    <% _ -> %>
+        <text
+            x={@coords.x0 - 16}
+            y={@coords.y0}
+            text-anchor="middle"
+            dominant-baseline="central"
+            fill="magenta"
+            transform-origin={"#{@coords.x0 - 16} #{@coords.y0}"}
+            transform="rotate(-90)"
+            class={[["row-#{@j}", "col-#{@i}"] | ["structure-debug"]]}
+        >
+            <%= @structure.type %>
+        </text>
+<% end %>
