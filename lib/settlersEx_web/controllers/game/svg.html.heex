@@ -1,0 +1,8 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={@viewBox.width}
+  height={@viewBox.height}
+  viewBox={"#{@viewBox."min-x"} #{@viewBox."min-y"} #{@viewBox.width} #{@viewBox.height}"}
+>
+  <%= render_slot(@inner_block) %>
+</svg>

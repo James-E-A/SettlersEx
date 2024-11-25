@@ -1,0 +1,22 @@
+<circle
+  cx={ @coords.x0 }
+  cy={ @coords.y0 }
+  r="48"
+  fill={ SettlersView.Util.material_color(@tile.type) }
+/>
+<%= if not is_nil(@tile.yield) do %>
+  <circle
+    cx={ @coords.x0 }
+    cy={ @coords.y0 }
+    r="12"
+    fill={ SettlersView.Util.material_color(:_cardboard) }
+  />
+  <text
+    x={ @coords.x0 }
+    y={ @coords.y0 }
+    text-anchor="middle"
+    dominant-baseline="central"
+  >
+    <%= @tile.yield %>
+  </text>
+<% end %>

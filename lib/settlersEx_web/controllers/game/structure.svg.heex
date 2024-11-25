@@ -1,0 +1,73 @@
+<%= case @structure.type do %>
+  <% :robber -> %>
+    <text
+      x={@coords.x0}
+      y={@coords.y0}
+      text-anchor="end"
+      dominant-baseline="central"
+      font-size="48"
+    >
+      &#x265f;&#xfe0e;
+    </text>
+  <% :merchant -> %>
+    <text
+      x={@coords.x0}
+      y={@coords.y0}
+      text-anchor="start"
+      dominant-baseline="central"
+      font-size="48"
+      fill="purple"
+    >
+      &#x265d;&#xfe0e;
+    </text>
+  <% :port -> %>
+    <g
+      transform-origin={"#{@coords.x0} #{@coords.y0}"}
+      transform={"rotate(#{90 - 60*@structure.detail.position})"}
+    >
+      <text
+        x={@coords.x0}
+        y={@coords.y_n1}
+        text-anchor="middle"
+        fill={SettlersView.Util.material_color(@structure.detail.type)}
+      >
+        <%= @structure.type %>
+      </text>
+    </g>
+  <% :road -> %>
+    <g
+      transform-origin={"#{@coords.x0} #{@coords.y0}"}
+      transform={"rotate(#{90 - 60*@k})"}
+    >
+      <rect
+        x={@coords.x0 - 32/2}
+        y={@coords.y_n2 - 6/2}
+        width="32"
+        height="6"
+        stroke-width="0.25"
+        stroke="black"
+        fill={@player_cosmetic[@structure.owner].color}
+      />
+    </g>
+    <% :settlement -> %>
+      <g
+        transform={case @k do 0 -> "translate(#{@coords.x_ee} #{@coords.y_n1})"; 1 -> "translate(#{@coords.x0} #{@coords.y_nn})" end}
+      >
+        <polygon
+          points="0,-12.5 10,-2.5 10,10 -10,10 -10,-2.5"
+          stroke-width="0.5"
+          stroke="black"
+          fill={@player_cosmetic[@structure.owner].color}
+        />
+      </g>
+  <% _ -> %>
+    <text
+      x={@coords.x0}
+      y={@coords.y0}
+      text-anchor="middle"
+      dominant-baseline="hanging"
+      fill="magenta"
+    >
+      <%= @structure.type %>
+    </text>
+<% end %>

@@ -1,0 +1,34 @@
+<g class="layer-structures">
+  <%= for {row, j} <- Enum.reverse(Enum.with_index(@structures.tiles)) do %>
+    <%= for {structures, i} <- Enum.with_index(row) do %>
+      <.structure :for={ structure <- structures }
+        structure={structure}
+        coords={@coords_array[j][i]}
+      />
+    <% end %>
+  <% end %>
+  <%= for {row, j} <- Enum.reverse(Enum.with_index(@structures.edges)) do %>
+    <%= for {edges, i} <- Enum.with_index(row) do %>
+      <%= for {structures, k} <- Enum.with_index(edges) do %>
+        <.structure :for={ structure <- structures }
+          structure={structure}
+          coords={@coords_array[j][i]}
+          k={k}
+          player_cosmetic={@player_cosmetic}
+        />
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= for {row, j} <- Enum.reverse(Enum.with_index(@structures.intersections)) do %>
+    <%= for {intersections, i} <- Enum.with_index(row) do %>
+      <%= for {structures, k} <- Enum.with_index(intersections) do %>
+        <.structure :for={ structure <- structures }
+          structure={structure}
+          coords={@coords_array[j][i]}
+          k={k}
+          player_cosmetic={@player_cosmetic}
+        />
+      <% end %>
+    <% end %>
+  <% end %>
+</g>
