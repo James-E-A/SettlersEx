@@ -1,34 +1,25 @@
 <g class="layer-structures">
-  <%= for {row, j} <- Enum.reverse(Enum.with_index(@structures.tiles)) do %>
-    <%= for {structures, i} <- Enum.with_index(row) do %>
-      <.structure :for={ structure <- structures }
-        structure={structure}
-        coords={@coords_array[j][i]}
-      />
-    <% end %>
+  <%= for {loc, tile_structures} <- @structures.tiles do %>
+    <.structure :for={ structure <- tile_structures }
+      structure={structure}
+      coords={@coords_array.values[loc]}
+      player_cosmetic={@player_cosmetic}
+    />
   <% end %>
-  <%= for {row, j} <- Enum.reverse(Enum.with_index(@structures.edges)) do %>
-    <%= for {edges, i} <- Enum.with_index(row) do %>
-      <%= for {structures, k} <- Enum.with_index(edges) do %>
-        <.structure :for={ structure <- structures }
-          structure={structure}
-          coords={@coords_array[j][i]}
-          k={k}
-          player_cosmetic={@player_cosmetic}
-        />
-      <% end %>
-    <% end %>
+  <%= for {loc, edge_structures} <- @structures.edges do %>
+    <.structure :for={ structure <- edge_structures }
+      structure={structure}
+      coords={@coords_array.values[loc] || %{x0: 42, y0: 42, y_n1: 41, y_n2: 42, y_nn: 40, x_ee: 45}}
+      k={elem(elem(loc, 1), 2)}
+      player_cosmetic={@player_cosmetic}
+    />
   <% end %>
-  <%= for {row, j} <- Enum.reverse(Enum.with_index(@structures.intersections)) do %>
-    <%= for {intersections, i} <- Enum.with_index(row) do %>
-      <%= for {structures, k} <- Enum.with_index(intersections) do %>
-        <.structure :for={ structure <- structures }
-          structure={structure}
-          coords={@coords_array[j][i]}
-          k={k}
-          player_cosmetic={@player_cosmetic}
-        />
-      <% end %>
-    <% end %>
+  <%= for {loc, intersection_structures} <- @structures.intersections do %>
+    <.structure :for={ structure <- intersection_structures }
+      structure={structure}
+      coords={@coords_array.values[loc] || %{x0: 42, y0: 42, y_n1: 41, y_n2: 42, y_nn: 40, x_ee: 45}}
+      k={elem(elem(loc, 1), 2)}
+      player_cosmetic={@player_cosmetic}
+    />
   <% end %>
 </g>

@@ -27,7 +27,7 @@
     >
       <text
         x={@coords.x0}
-        y={@coords.y_n1}
+        y={@coords.y0 - 32}
         text-anchor="middle"
         fill={SettlersView.Util.material_color(@structure.detail.type)}
       >
@@ -37,11 +37,11 @@
   <% :road -> %>
     <g
       transform-origin={"#{@coords.x0} #{@coords.y0}"}
-      transform={"rotate(#{90 - 60*@k})"}
+      transform={"rotate(#{@coords.rot})"}
     >
       <rect
         x={@coords.x0 - 32/2}
-        y={@coords.y_n2 - 6/2}
+        y={@coords.y0 - 6/2}
         width="32"
         height="6"
         stroke-width="0.25"
@@ -51,7 +51,7 @@
     </g>
     <% :settlement -> %>
       <g
-        transform={case @k do 0 -> "translate(#{@coords.x_ee} #{@coords.y_n1})"; 1 -> "translate(#{@coords.x0} #{@coords.y_nn})" end}
+        transform={"translate(#{@coords.x0} #{@coords.y0})"}
       >
         <polygon
           points="0,-12.5 10,-2.5 10,10 -10,10 -10,-2.5"

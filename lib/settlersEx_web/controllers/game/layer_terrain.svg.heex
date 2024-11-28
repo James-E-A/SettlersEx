@@ -1,12 +1,8 @@
 <g class="layer-terrain">
-  <%= for {row, j} <- Enum.reverse(Enum.with_index(@terrain)) do %>
-    <%= for {tile, i} <- Enum.with_index(row) do %>
-      <%= if not is_nil(tile) do %>
-        <.terrain
-          tile={tile}
-          coords={@coords_array[j][i]}
-        />
-      <% end %>
-    <% end %>
+  <%= for {loc, tile} <- Enum.sort_by(@terrain, fn {{0, {i, j}}, _} -> {-j, i} end) do %>
+    <.terrain
+      tile={tile}
+      coords={@coords_array.values[loc]}
+    />
   <% end %>
 </g>
