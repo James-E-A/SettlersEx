@@ -2,6 +2,7 @@
 
   * `mix setup`
   * `iex -S mix phx.server`
+    - on Windows, with PowerShell, make that `iex.bat -S mix phx.server`
   * http://localhost:4000/game/092f498e-d8f1-462a-adac-d1d1be043270
 
 # Production
