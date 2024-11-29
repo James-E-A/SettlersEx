@@ -1,6 +1,13 @@
-<.svg
+<.svg_viewbox
   viewBox={SettlersView.Util.viewBox(@coords_array)}
 >
+  <script>{
+	let dpi;
+	if ((dpi = window.localStorage.getItem('dpi')) !== null) {
+		document.currentScript.parentElement.style.transformOrigin = "top center";
+		document.currentScript.parentElement.style.transform = `scale(${dpi / 96 / window.devicePixelRatio})`;
+	}
+}</script>
   <.layer_terrain terrain={@terrain} coords_array={@coords_array} />
   <.layer_structures structures={@structures} coords_array={@coords_array} player_cosmetic={@player_cosmetic} />
-</.svg>
+</.svg_viewbox>
