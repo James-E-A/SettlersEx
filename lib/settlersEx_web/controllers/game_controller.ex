@@ -1,7 +1,13 @@
-defmodule SettlersExWeb.GameController do
-  use SettlersExWeb, :controller
+defmodule SettlersExWeb.GameLive do
+  use Phoenix.LiveView
 
-  def game(conn, _params) do
-    render(conn, :game, game: SettlersModel.new_game())
+  def mount(params, _session, socket) do
+    game = SettlersModel.new_game();
+    {:ok, assign(socket, game: game)}
   end
+
+  def render(assigns) do
+    SettlersExWeb.GameHTML.game(assigns)
+  end
+
 end

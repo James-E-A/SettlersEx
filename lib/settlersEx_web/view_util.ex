@@ -106,8 +106,8 @@ defmodule SettlersExWeb.Util do
     %{ # cast result to weird format required by SVG spec
       "min-x": x_ww,
       "min-y": y_nn,
-      width: x_ee - x_ww,
-      height: y_ss - y_nn,
+      width: ceil(x_ee - x_ww),
+      height: ceil(y_ss - y_nn),
     }
   end
 

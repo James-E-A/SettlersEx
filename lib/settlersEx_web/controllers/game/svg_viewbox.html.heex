@@ -3,6 +3,8 @@
   width={@viewBox.width}
   height={@viewBox.height}
   viewBox={"#{@viewBox."min-x"} #{@viewBox."min-y"} #{@viewBox.width} #{@viewBox.height}"}
+  class={@class}
+  style="flex: none; /* do NOT mess with the user's ability to zoom in and out */"
 >
   <%= render_slot(@inner_block) %>
 </svg>

@@ -1,7 +1,9 @@
-<.board
-  shape={@game.state.board._shape}
-  terrain={@game.state.board.terrain}
-  structures={@game.state.board.structures}
-  player_cosmetic={@game.player_cosmetic}
-  render_style={:"point-top"}
-/>
+<div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+  <.board
+    shape={@game.state.board._shape}
+    terrain={@game.state.board.terrain}
+    structures={@game.state.board.structures}
+    player_cosmetic={@game.player_cosmetic}
+    render_style={:"point-top"}
+  />
+</div>

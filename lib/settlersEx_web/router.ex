@@ -1,5 +1,6 @@
 defmodule SettlersExWeb.Router do
   use SettlersExWeb, :router
+  import Phoenix.LiveView.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -18,7 +19,7 @@ defmodule SettlersExWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-    get "/game/:id", GameController, :game
+    live "/game/:id", GameLive
   end
 
   # Other scopes may use custom stacks.
