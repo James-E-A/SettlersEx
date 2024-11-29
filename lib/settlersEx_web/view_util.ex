@@ -1,4 +1,4 @@
-defmodule SettlersView.Util do
+defmodule SettlersExWeb.Util do
   @material_colors %{
 
     ocean: "DodgerBlue",

@@ -1,10 +1,9 @@
 <g class="layer-terrain">
-  <%= for {{0, {i, j}}, tile} <- Enum.sort_by(@terrain, fn {{0, {i, j}}, _} -> {-j, i} end) do %>
+  <%= for {loc, tile} <- Enum.sort_by(@terrain, fn {{0, {i, j}}, _} -> {-j, i} end) do %>
     <.terrain
       tile={tile}
-      loc={{0, {i, j}}}
-      coords={@coords_array.values[{0, {i, j}}]}
-      boundary_path={[{2,{i,j,0}}, {2,{i,j,1}}, {2,{i-1,j,0}}, {2,{i-1,j-1,1}}, {2,{i-1,j-1,0}}, {2,{i,j-1,1}}] |> Enum.map(fn loc -> @coords_array.values[loc] end)}
+      coords={@coords_array.values[loc]}
+      boundary_path={adjacent_intersections(loc) |> Enum.map(fn loc_ -> @coords_array.values[loc_] end)}
     />
   <% end %>
 </g>
