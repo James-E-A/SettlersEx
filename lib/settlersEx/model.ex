@@ -1,4 +1,37 @@
 defmodule SettlersModel do
+
+  def adjacent_edges(loc) do
+    case loc do
+      {0, {i, j}} ->
+        [{1,{i,j,0}}, {1,{i,j,1}}, {1,{i,j,2}}, {1,{i-1,j,0}}, {1,{i-1,j-1,1}}, {1,{i,j-1,2}}]
+      {1, {i, j, k}} ->
+        case k do
+          0 -> [{1,{i+1,j,2}}, {1,{i,j,1}}, {1,{i,j-1,2}}, {1,{i,j-1,1}}]
+          1 -> [{1,{i+1,j,2}}, {1,{i,j+1,0}}, {i,j,2}, {i,j,0}]
+          2 -> [{1,{i,j+1,0}}, {1,{i-1,j,1}}, {1,{i-1,j,0}}, {i,j,1}]
+        end
+      {2, {i, j, k}} ->
+        case k do
+          0 -> [{1,{i,j+1,2}}, {1,{i,j,1}}, {1,{i,j,0}}]
+          1 -> [{1,{i,j+1,0}}, {1,{i,j,2}}, {1,{i,j,1}}]
+        end
+    end
+  end
+
+  def adjacent_intersections(loc) do
+    case loc do
+      {0, {i, j}} ->
+        [{2,{i,j,0}}, {2,{i,j,1}}, {2,{i-1,j,0}}, {2,{i-1,j-1,1}}, {2,{i-1,j-1,0}}, {2,{i,j-1,1}}]
+      {1, {i, j, k}} ->
+        :TODO
+      {2, {i, j, k}} ->
+        case k do
+          0 -> [{2,{i+1,j,1}}, {2,{i,j,1}}, {2,{i,j-1,1}}]
+          1 -> [{2,{i,j+1,0}}, {2,{i-1,j,0}}, {2,{i,j,0}}]
+        end
+    end
+  end
+
   defmodule Game do
     @enforce_keys [:state]
     defstruct [:state, :player_cosmetic]
@@ -44,49 +77,49 @@ defmodule SettlersModel do
   def new_game(state \\ %GameState{
     board: %Catan{
       terrain: %{
-        {0, {3, 6}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
-        {0, {4, 6}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
-        {0, {5, 6}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
-        {0, {6, 6}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
+        {0, {3, 6}} => %SettlersModel.TerrainTile{type: :ocean},
+        {0, {4, 6}} => %SettlersModel.TerrainTile{type: :ocean},
+        {0, {5, 6}} => %SettlersModel.TerrainTile{type: :ocean},
+        {0, {6, 6}} => %SettlersModel.TerrainTile{type: :ocean},
 
-        {0, {2, 5}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
+        {0, {2, 5}} => %SettlersModel.TerrainTile{type: :ocean},
         {0, {3, 5}} => %SettlersModel.TerrainTile{type: :mountains, yield: 8},
         {0, {4, 5}} => %SettlersModel.TerrainTile{type: :hills, yield: 10},
         {0, {5, 5}} => %SettlersModel.TerrainTile{type: :forest, yield: 9},
-        {0, {6, 5}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
+        {0, {6, 5}} => %SettlersModel.TerrainTile{type: :ocean},
 
-        {0, {1, 4}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
+        {0, {1, 4}} => %SettlersModel.TerrainTile{type: :ocean},
         {0, {2, 4}} => %SettlersModel.TerrainTile{type: :pasture, yield: 5},
         {0, {3, 4}} => %SettlersModel.TerrainTile{type: :forest, yield: 3},
         {0, {4, 4}} => %SettlersModel.TerrainTile{type: :pasture, yield: 4},
         {0, {5, 4}} => %SettlersModel.TerrainTile{type: :pasture, yield: 2},
-        {0, {6, 4}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
+        {0, {6, 4}} => %SettlersModel.TerrainTile{type: :ocean},
 
-        {0, {0, 3}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
+        {0, {0, 3}} => %SettlersModel.TerrainTile{type: :ocean},
         {0, {1, 3}} => %SettlersModel.TerrainTile{type: :pasture, yield: 11},
         {0, {2, 3}} => %SettlersModel.TerrainTile{type: :fields, yield: 4},
-        {0, {3, 3}} => %SettlersModel.TerrainTile{type: :desert, yield: nil},
+        {0, {3, 3}} => %SettlersModel.TerrainTile{type: :desert},
         {0, {4, 3}} => %SettlersModel.TerrainTile{type: :hills, yield: 6},
         {0, {5, 3}} => %SettlersModel.TerrainTile{type: :mountains, yield: 10},
-        {0, {6, 3}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
+        {0, {6, 3}} => %SettlersModel.TerrainTile{type: :ocean},
 
-        {0, {0, 2}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
+        {0, {0, 2}} => %SettlersModel.TerrainTile{type: :ocean},
         {0, {1, 2}} => %SettlersModel.TerrainTile{type: :fields, yield: 6},
         {0, {2, 2}} => %SettlersModel.TerrainTile{type: :mountains, yield: 3},
         {0, {3, 2}} => %SettlersModel.TerrainTile{type: :forest, yield: 11},
         {0, {4, 2}} => %SettlersModel.TerrainTile{type: :fields, yield: 12},
-        {0, {5, 2}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
+        {0, {5, 2}} => %SettlersModel.TerrainTile{type: :ocean},
 
-        {0, {0, 1}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
+        {0, {0, 1}} => %SettlersModel.TerrainTile{type: :ocean},
         {0, {1, 1}} => %SettlersModel.TerrainTile{type: :hills, yield: 5},
         {0, {2, 1}} => %SettlersModel.TerrainTile{type: :forest, yield: 8},
         {0, {3, 1}} => %SettlersModel.TerrainTile{type: :fields, yield: 9},
-        {0, {4, 1}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
+        {0, {4, 1}} => %SettlersModel.TerrainTile{type: :ocean},
 
-        {0, {0, 0}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
-        {0, {1, 0}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
-        {0, {2, 0}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
-        {0, {3, 0}} => %SettlersModel.TerrainTile{type: :ocean, yield: nil},
+        {0, {0, 0}} => %SettlersModel.TerrainTile{type: :ocean},
+        {0, {1, 0}} => %SettlersModel.TerrainTile{type: :ocean},
+        {0, {2, 0}} => %SettlersModel.TerrainTile{type: :ocean},
+        {0, {3, 0}} => %SettlersModel.TerrainTile{type: :ocean},
       },
 
       structures: %Catan.Structures{
