@@ -451,30 +451,30 @@ defmodule SettlersModel do
       },
       _shape: %Catan.Shape{rows: 7, cols: 7}
     },
-    players: Arrays.new([
-      %Player{
+    players: %{
+      0 => %Player{
         development_hand: %{},
         resource_hand: %{ore: 1, lumber: 1, brick: 1}
       },
-      %Player{
+      1 => %Player{
         development_hand: %{},
         resource_hand: %{lumber: 2, grain: 1}
       },
-      %Player{
+      2 => %Player{
         development_hand: %{},
         resource_hand: %{brick: 1, grain: 1, lumber: 1}
       },
-      %Player{
+      3 => %Player{
         development_hand: %{},
         resource_hand: %{grain: 2, ore: 1}
       }
-    ])
-  }, player_cosmetic \\ Arrays.new([
-    %Player.Cosmetic{name: "Player 1", color: "blue"},
-    %Player.Cosmetic{name: "Player 2", color: "red"},
-    %Player.Cosmetic{name: "Player 3", color: "white"},
-    %Player.Cosmetic{name: "Player 4", color: "orange"},
-  ])) do
+    }
+  }, player_cosmetic \\ %{
+    0 => %Player.Cosmetic{name: "Player 1", color: "blue"},
+    1 => %Player.Cosmetic{name: "Player 2", color: "red"},
+    2 => %Player.Cosmetic{name: "Player 3", color: "white"},
+    3 => %Player.Cosmetic{name: "Player 4", color: "orange"},
+  }) do
     %Game{state: state, player_cosmetic: player_cosmetic}
   end
 end
