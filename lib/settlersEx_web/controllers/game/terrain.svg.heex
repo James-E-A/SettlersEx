@@ -1,8 +1,16 @@
-<circle
-  cx={ @coords.x0 }
-  cy={ @coords.y0 }
-  r="48"
+<polygon
+  points={Enum.join(@boundary_path |> Stream.map(fn %{x0: x, y0: y} -> "#{x},#{y}" end), " ")}
+  fill={ SettlersView.Util.material_color(:desert) }
+  transform-origin={"#{@coords.x0} #{@coords.y0}"}
+  transform="scale(0.99)"
+/>
+<polygon
+  points={Enum.join(@boundary_path |> Stream.map(fn %{x0: x, y0: y} -> "#{x},#{y}" end), " ")}
   fill={ SettlersView.Util.material_color(@tile.type) }
+  stroke-width="0.25"
+  stroke="black"
+  transform-origin={"#{@coords.x0} #{@coords.y0}"}
+  transform="scale(0.9)"
 />
 <%= if not is_nil(@tile.yield) do %>
   <circle
