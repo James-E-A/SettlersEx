@@ -1,5 +1,7 @@
 # Development
 
+On Nix/NixOS: `nix-shell contrib/shell.nix`
+
   * `mix setup`
   * `iex -S mix phx.server`
     - on Windows, with PowerShell, make that `iex.bat -S mix phx.server`
